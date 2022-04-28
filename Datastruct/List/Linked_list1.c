@@ -5,6 +5,12 @@ typedef struct node{
     int data;
     struct node *next;
 }Node;
+// 이렇게 하면 왜 안되는건지 이해가 안감
+// typedef struct Llist{
+//     Node * head;
+//     Node * tail;
+//     Node * cur;
+// }list;
 
 //일단 입력받는거만 그냥 해보는거
 
