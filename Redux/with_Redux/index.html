@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.2.0/redux.js" integrity="sha512-8clKd0Zb9EeWqWE0gzlNxwWIjzYlYZ9cAsGcGM7gPsE+SKUxY6zZmLhrWqHMYQqbNCSwy21bn/TtA4zTQ+edag==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    </head>
+    <body>
+        <style>
+            .container{
+                border:5px solid black;
+                padding:10px;
+            }
+        </style>
+        <h1>WithOut Redux</h1>
+        <div id ="red" ></div>
+        <div id ="blue" ></div>
+        
+        <script>
+            //action -> dispatch -> reducer 
+            function reducer(state, action){
+                console.log(state, action)
+                if(state === undefined){//최초의 상태 초기화 단계라면
+                    return {color:'yellow'} //state 값이 변함
+                }
+                var newState;
+                if(action.type === 'CHANGE_COLOR' ){
+                    newState = Object.assign({}, state, {color : action.color});
+                    return newState;
+                }
+                
+            }
+            var store = Redux.createStore(
+                reducer,
+                window.__REDUX_DEVTOOLS_EXTENSION__ && 
+                window.__REDUX_DEVTOOLS_EXTENSION__()    
+            ); // store라는 변수는 전역변수가 됨
+            //console.log(store.getState());
+            function red(){
+                var state = store.getState();
+                document.querySelector('#red').innerHTML =`
+                        <div class="container" id = "component_red" style ="background-color:${state.color}">
+                            <h1>red</h1>
+                            <input type ="button" value="red" onclick=" 
+                                store.dispatch({type:'CHANGE_COLOR', color : 'red'}); //store 객체의 dispatch 메소드를 이용하면 reducer가 호출이되고, 이전의 state값과 action을 인자로 넣어줌
+                            "
+                            ></input>
+                        </div>
+                        
+                    `;
+            }
+            red();//최초의 함수 실행
+            //state가 바뀔때마다 함수를 실행시킨다면? 여기서는 red()라는 함수가 getState를 통해서 State를 가지고오고 render하니까 state가 바뀌고 red함수가 실행이 된다면 다른 값이 나올거임
+            store.subscribe(red); // state가 바뀔때마다 red() 실행
+            function blue(){
+                var state = store.getState();
+                document.querySelector('#blue').innerHTML =`
+                        <div class="container" id = "component_blue" style ="background-color:${state.color}">
+                            <h1>blue</h1>
+                            <input type ="button" value="blue" onclick=" 
+                                store.dispatch({type:'CHANGE_COLOR', color : 'blue'}); //store 객체의 dispatch 메소드를 이용하면 reducer가 호출이되고, 이전의 state값과 action을 인자로 넣어줌
+                            "
+                            ></input>
+                        </div>
+                        
+                    `;
+            }
+            blue();//최초의 함수 실행
+            //state가 바뀔때마다 함수를 실행시킨다면? 여기서는 red()라는 함수가 getState를 통해서 State를 가지고오고 render하니까 state가 바뀌고 red함수가 실행이 된다면 다른 값이 나올거임
+            store.subscribe(blue); // state가 바뀔때마다 red() 실행
+        </script>
+    </body>
+</html>
