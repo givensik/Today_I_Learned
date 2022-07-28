@@ -12,6 +12,8 @@ import {
 import Home from "./route/Home";
 import NaverLogin from "./route/NaverLogin";
 import NaverCallback from "./route/NaverCallback";
+import GoogleCallback from "./route/GoogleCallback";
+
 
 function App() {
   return (
@@ -20,6 +22,7 @@ function App() {
          <Route path = "/" element ={<Home />} ></Route>
          <Route path ="/naverlogin" element ={<NaverLogin />}></Route>
          <Route path = "/NaverCallback" element ={<NaverCallback />} ></Route>
+         <Route path = "GoogleCallback" element ={<GoogleCallback />} ></Route>
       </Routes>
     </div>
   );
