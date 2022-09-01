@@ -22,7 +22,7 @@ function App() {
          <Route path = "/" element ={<Home />} ></Route>
          <Route path ="/naverlogin" element ={<NaverLogin />}></Route>
          <Route path = "/NaverCallback" element ={<NaverCallback />} ></Route>
-         <Route path = "GoogleCallback" element ={<GoogleCallback />} ></Route>
+         <Route path = "/GoogleCallback" element ={<GoogleCallback />} ></Route>
       </Routes>
     </div>
   );

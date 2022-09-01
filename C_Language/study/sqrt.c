@@ -1,4 +1,7 @@
 #include <stdio.h>
+
+int c = 1; // 전역변수
+
 double funx(double x, double a){
     return x*x - a;
 }
@@ -6,7 +9,6 @@ double funxx(double a){
     return 2*a;
 }
 int main(){
-
     double x,a;//우리는 루트 a를 구할거임 (x = a일때 시작)
     scanf("%lf",&a);
     int i = 0;
