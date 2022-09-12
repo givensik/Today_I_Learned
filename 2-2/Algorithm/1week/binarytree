@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct node {
+    struct node* left;
+    struct node* right;
+    int number;
+}node;
+
+typedef struct tree{
+    struct node* root;
+}tree;
+
+void init(tree *tr){
+    tr->root = (node*)malloc(sizeof(node));
+    tr->root->left = NULL;
+    tr->root->number = 0;
+    tr->root->right =NULL;
+}
+
+int main(){
+
+    tree *a = (tree*)malloc(sizeof(tree));
+    
+
+    
+    return 0;
+}
