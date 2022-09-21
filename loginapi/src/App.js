@@ -13,7 +13,7 @@ import Home from "./route/Home";
 import NaverLogin from "./route/NaverLogin";
 import NaverCallback from "./route/NaverCallback";
 import GoogleCallback from "./route/GoogleCallback";
-
+import Mypage from "./route/Mypage";
 
 function App() {
   return (
@@ -23,6 +23,7 @@ function App() {
          <Route path ="/naverlogin" element ={<NaverLogin />}></Route>
          <Route path = "/NaverCallback" element ={<NaverCallback />} ></Route>
          <Route path = "/GoogleCallback" element ={<GoogleCallback />} ></Route>
+         <Route path = "/Mypage" element ={<Mypage />} ></Route>
       </Routes>
     </div>
   );
