@@ -66,6 +66,7 @@ void printArray(int n){
     }
     printf("\n");
 }
+
 int main(){
 
     
