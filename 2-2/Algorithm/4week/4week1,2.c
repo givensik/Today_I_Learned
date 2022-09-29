@@ -40,6 +40,7 @@ void printHeap() {
    }
    printf("\n");
 }
+
 int removeHeap(){
     int r;
     r = heap[N];
