@@ -8,15 +8,19 @@ void downHeap(int i) {
    if ((N < (i * 2)) && (N < (i * 2 + 1))) {//자식이 없으면 함수 종료
       return;
    }
+
    bigger = i * 2;
+
    if (N >= i * 2 + 1) {
       if (heap[i * 2 + 1] > heap[bigger]) {
          bigger = i * 2 + 1;
       }
    }
+
    if (heap[i] >= heap[bigger]) {
       return;
    }
+   
    temp = heap[i];
    heap[i] = heap[bigger];
    heap[bigger] = temp;
