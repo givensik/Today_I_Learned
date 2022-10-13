@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 int findK(int *arr, int s, int e, int k){
-    printf("s= %d e = %d\n",s,e);
+    // printf("s= %d e = %d\n",s,e);
     if(arr[(s+e)/2] == k){//키 값이랑 같을 때
         return (s+e)/2;
     }
@@ -30,7 +30,12 @@ int main(){
     for(int i=0;i<n; i++){
         scanf("%d",&arr[i]);
     }
-    printf(" %d\n",findK(arr,0,n-1,k));
+    if(arr[0]>k){
+        printf(" -1\n");
+    }else{
+        printf(" %d\n",findK(arr,0,n-1,k));
+    }
+    
 
 
     return 0;
