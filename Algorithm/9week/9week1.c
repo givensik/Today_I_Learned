@@ -83,6 +83,13 @@ void print(node* next){
     
 }
 
+
+
+void Delete(node *next){
+    
+}
+
+
 int main(){
 
     char instrcution;
