@@ -30,7 +30,6 @@ void INPUT();
 void OUTPUT();
 
 
-
 int AC=0;
 int MAR=0;
 int MBR=0;
@@ -155,6 +154,7 @@ void branch_if_greater_than_0(){
 }
 //INPUT 함수
 void INPUT(){
+    printf("input : ");
     scanf("%d",&AC);
 }
 
