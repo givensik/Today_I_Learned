@@ -37,44 +37,55 @@ int IR=0;
 int Memory[100] ={0};
 int PC=0;
 
+int clock = 0;
+int byte = 0;
 
 int main(int argc, char* argv[]){
-    Memory[99]=1;
     FILE *code = fopen(argv[1],"r");
-
     char *cline; // 파일에서 한 줄씩 가져온 문자열이 들어가는 자리
     char line[100];
     int i=0;
+    
+    
     //메모리에 저장
+    // 입력한 인자 수가 없을 때
+    if(argc == 1){
+        printf("input filename!\n");
+        return 0;
+    }
+    // 파일을 열지 못했을때
+    if(code == NULL){
+        printf("Couldn't open file\n");
+        return 0;
+    }
+
     while(!feof(code)){
         cline = fgets(line,100,code); //길이 100으로 한줄 가져옴
         Memory[i] = atoi(cline); //문자로 되어있는 cline을 정수로 바꿔서 메모리에 저장
-        // printf("Memeory[%d] = %d\n",i,Memory[i]);
         i++;
+        byte++;
     }
-    // printf("시작\n");
     while(1){
         instruction_fetch();
         execution();
-        
     }
+    
+
     fclose(code);
  
     return 0;
 }
 //instruction_fetch함수 PC에 있는 값을 IR에 가져옴
 void instruction_fetch(){
-    // printf("PC = %d\n",PC);
     MAR = PC;
     MBR = Memory[MAR];
     PC = PC + 1;
     IR = MBR;
-    // printf("IR = %d\n",IR);
+    clock++;
 }
 
 void execution(){
     int opcode = IR/100;
-    // printf("Opcode = %d\n",opcode);
 
     if(IR == 901){
         INPUT();
@@ -85,6 +96,8 @@ void execution(){
     switch (opcode)
     {
     case 0:
+        printf("byte = %d\n",byte);
+        printf("clock = %d\n",clock);
         exit(0);
         break;
     case 1: 
