@@ -1,4 +1,5 @@
-BinaryTree.o : BinaryTree.h BinaryTree.c
+
+odBinaryTree.o : BinaryTree.h BinaryTree.c
     gcc -c BinaryTree.c
 
 BinaryTreeMain.o : BinaryTreeMain.c
