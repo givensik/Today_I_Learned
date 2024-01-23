@@ -22,9 +22,11 @@ void makeLeftSubTree(BTreeNode* main, BTreeNode* sub); // 왼쪽 서브트리 �
 void makeRightSubTree(BTreeNode* main, BTreeNode* sub); // 오른쪽 서브트리 만들기
 
 
-typedef void VisitFuncPtr(BTDATA data);
+typedef void VisitFuncPtr(BTDATA data); // 함수 포인턴
 
 void PreorderTraverse(BTreeNode* bt, VisitFuncPtr action); // 전위 순회
 void PostorderTraverse(BTreeNode* bt, VisitFuncPtr action) ; // 후위 순회
 void InorderTraverse(BTreeNode* bt, VisitFuncPtr action); // 중위 순회
+
+void DeleteTree(BTreeNode* bt);
 #endif

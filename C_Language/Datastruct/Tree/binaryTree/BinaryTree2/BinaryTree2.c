@@ -41,3 +41,57 @@ void makeRightSubTree(BTreeNode* main, BTreeNode* sub){
   }
   main->right = sub;
 }
+
+
+void PreorderTraverse(BTreeNode* bt, VisitFuncPtr action) // 전위 순회
+{
+  if(bt == NULL){
+    return ;
+  }
+  action(bt->data); // 부모 노드 출력(이걸 접근한다고 본거)
+  PreorderTraverse(bt->left, action); // 왼쪽 서브트리도 전위 순회
+  PreorderTraverse(bt->right, action); // 오른쪽 서브트리에도 전위 순회
+}
+void PostorderTraverse(BTreeNode* bt, VisitFuncPtr action) // 후위 순회
+{
+  if(bt == NULL){
+    return ;
+  }
+  PostorderTraverse(bt->right, action); // 오른쪽 서브트리에도 후위 순회
+  action(bt->data); // 부모 노드 출력(이걸 접근한다고 본거)
+  PostorderTraverse(bt->left, action); // 왼쪽 서브트리도 후위 순회
+
+}
+void InorderTraverse(BTreeNode* bt, VisitFuncPtr action){
+  if(bt == NULL){
+    return ;
+  }
+  InorderTraverse(bt->left, action); // 왼쪽 서브트리도 중위 순회
+  action(bt->data); // 부모 노드 출력(이걸 접근한다고 본거)
+  InorderTraverse(bt->right, action); // 오른쪽 서브트리에도 중위 순회
+}
+
+// 트리 삭제
+void DeleteTree(BTreeNode* bt){
+  // 왼쪽 자식이 있으면
+  if(bt->left){
+    DeleteTree(bt->left);
+  }
+  if(bt->right){
+    DeleteTree(bt->right);
+  }
+  // 자식 노드들 모두 삭제된 상태이므로 노드 삭제
+  printf("delete bt%d\n",bt->data);
+  free(bt);
+  /*
+    책 내용
+    if(bt == NULL){
+      return;
+    }
+    DeleteTree(bt->left);
+    DeleteTree(bt->right);
+    printf("delete bt%d\n",bt->data);
+    free(bt);
+  */
+
+}
