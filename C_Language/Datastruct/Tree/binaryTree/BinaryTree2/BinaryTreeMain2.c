@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "BinaryTree.h"
+#include "BinaryTree2.h"
 
 int main(){
   BTreeNode* bt1 = MakeBTreeNode();
@@ -17,9 +17,14 @@ int main(){
   makeRightSubTree(bt1, bt3);
   makeLeftSubTree(bt2, bt4);
 
-  printf("bt1의 LeftSubTree의 data : %d\n", GetData(GetLeftSubTree(bt1)));
-  printf("bt2의 LeftSubTree의 data : %d\n", GetData(GetLeftSubTree(bt2)));
-
+  /*
+    현재 상태
+        1
+      2   3
+    4
+  */
+ 
+  // printf("%d\n",GetLeftSubTree(bt2)->data);
 
 
   return 0;

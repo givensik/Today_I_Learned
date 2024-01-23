@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "BinaryTree.h"
+#include "BinaryTree2.h"
 
 // 노드의 생성
 BTreeNode* MakeBTreeNode(void){ 

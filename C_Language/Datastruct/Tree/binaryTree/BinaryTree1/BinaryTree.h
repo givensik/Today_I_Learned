@@ -1,8 +1,10 @@
 #ifndef __BINARY_TREE_H__
 #define __BINARY_TREE_H__
 
+//binary tree 노드에 들어가는 
 typedef int BTDATA;
 
+// binary tree 노드
 typedef struct _bTreeNode{
   BTDATA data;
   struct _bTreeNode *left;
