@@ -4,11 +4,13 @@
 #define TRUE 1
 #define FALSE 0
 
+#include "BinaryTree2.h"
+
 typedef int Data;
 
 typedef struct _node
 {
-	Data data;
+	BTreeNode * bt;
 	struct _node* next;
 	
 }Node;
@@ -24,8 +26,8 @@ typedef ListStack Stack;
 void stackInit(Stack* pstack); // 스택 초기화
 int SIsEmpty(Stack* pstack); // 스택이 비었는지 확인
 
-void SPush(Stack * pstack, Data data);
-Data SPop(Stack * pstack);
+void SPush(Stack * pstack, BTreeNode* bt);
+BTreeNode * SPop(Stack * pstack);
 Data SPeek(Stack * pstack);
 
 #endif
