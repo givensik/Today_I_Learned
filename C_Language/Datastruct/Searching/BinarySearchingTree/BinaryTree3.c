@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "BinaryTree2.h"
+#include "BinaryTree3.h"
 
 // 노드의 생성
 BTreeNode * MakeBTreeNode(void){
@@ -82,4 +82,35 @@ void DeleteTree(BTreeNode* bt){
 	}
 	printf("노드 %d 삭제 \n", bt->data);
 	free(bt);
+}
+
+// 서브트리를 삭제할 뿐, 메모리 해제를 하지 않고 그 노드를 반환
+BTreeNode * RemoveLeftSubTree(BTreeNode * bt){
+	BTreeNode * tmp;
+	
+	if(bt != NULL){
+		tmp = bt->left;
+		bt->left = NULL;
+	}
+
+	return tmp;
+
+}
+
+BTreeNode * RemoveRightSubTree(BTreeNode * bt){
+	BTreeNode * tmp;
+	
+	if(bt != NULL){
+		tmp = bt->right;
+		bt->right = NULL;
+	}
+
+	return tmp;
+}
+
+void ChangeLeftSubTree(BTreeNode * main, BTreeNode * sub){
+	main->left = sub;
+}
+void ChangeRightSubTree(BTreeNode * main, BTreeNode * sub){
+	main->right = sub;
 }

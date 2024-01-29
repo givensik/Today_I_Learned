@@ -1,11 +1,11 @@
-BinaryTree2.o: BinaryTree2.c BinaryTree2.h
+BinaryTree3.o: BinaryTree3.c BinaryTree3.h
 	gcc -c BinaryTree2.c
-SelectionSort.out: SelectionSort.c
-	gcc -o SelectionSort.out SelectionSort.c
-insertSort.out: insertSort.c
-	gcc -o insertSort.out insertSort.c
-MergeSort.out: MergeSort.c
-	gcc -o MergeSort.out MergeSort.c
+BinarySearchTree.o: BinarySearchTree.c BinarySearchTree.h
+	gcc -c BinarySearchTree.c
+BinarySearchTreeMain.o: BinarySearchTreeMain.c
+	gcc -c BinarySearchTreeMain.c
+BinarySearchTreeMain.out: BinaryTree2.o BinarySearchTree.o BinarySearchTreeMain.o
+	gcc -o BinarySearchTreeMain.out BinaryTree2.o BinarySearchTree.o BinarySearchTreeMain.o
 QuickSort.out: QuickSort.c
 	gcc -o QuickSort.out QuickSort.c
 clean:
