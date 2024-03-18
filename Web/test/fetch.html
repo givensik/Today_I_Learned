@@ -1,0 +1,53 @@
+<script>
+	// fetch가 비동기임을 보여주는 사례
+	console.log(1);
+	fetch('https://jsonplaceholder.typicode.com/posts')
+	.then(function(response){
+		return response.json();
+	})
+	.then(function(json){
+		console.log(json)
+	})
+	// 여기서 then()이 promise임
+	console.log(2);
+
+
+	// 여기서 fetched는 Promise를 가진다.
+	// Promise의 메소드 
+	// 1. then(function(result){}) : fetch가 성공했을 때, then으로 전달된 콜백함수가 실행됨(파라미터로 결과가 들어감)
+	// 2. catch() : : fetch가 실패했을때 반환한 Promise일때 catch로 간다. (파라미터로 실패이유가 나온다)
+	// Promise를 사용하는 이유 : 비동기 방식을 사용했을때, 성공, 실패에 대한 표준화를 하기 위해서? 
+
+	var fetched = fetch('https://jsonplaceholder.typicode.com/posts');
+	console.log(fetched)
+
+	fetched.then(function(response){
+		// 여기서 response는 요청에 대한 response 객체임, 근데 이게 Promise 객체여서 이걸 자바스크립트가 읽을 수 있는 값으로 바꿔야함
+		console.log("response : ",response)
+
+		// response.json() -> response객체를 json 형태로 반환
+		// 근데 .json()해서 반환된 값도 promise 객체임
+		console.log("response.json() : ",response.json())
+
+		// nested promise : 안에서 then함수 쓸때 
+		console.log("response.json() : ",response.json().then(function(){
+
+		}))
+	})
+
+	var fetched2 = fetch('https://jsonplaceholder');
+	fetched2.catch(function(reason){
+		console.log("reason :",reason)
+	})
+
+	fetch('https://jsonplaceholder.typicode.com/posts')
+		.then(function(response){
+			return response.json()
+		})
+		// return한 response.json도 promise니까 .then 사용 가능(promise chaining)
+		.then(function(data){
+			console.log('data', data)
+		})
+
+
+</script>
