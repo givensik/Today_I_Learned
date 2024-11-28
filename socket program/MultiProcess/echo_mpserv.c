@@ -1,3 +1,7 @@
+/*
+    gcc echo_mpserv.c -o mpserv
+    ./mpserv <PORT>
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
