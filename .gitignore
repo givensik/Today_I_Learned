@@ -6,3 +6,9 @@
 
 *.out
 *.o
+
+
+/PublicKeyCrypto/src/__pycache__
+
+/PublicKeyCrypto/src/build
+PublicKeyCrypto/src/dist
