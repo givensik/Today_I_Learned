@@ -88,38 +88,44 @@ def playfair_tech(plaintext, key):
             processed[i+1] = matrix[by][ax]
     return processed
 
-def decrypt_playfair(cipher, key):
+def playfair_decrypt(ciphertext, key):
     # 1. create matrix
     matrix = []
-    key = key.upper().replace("J","I")
+    key = key.upper().replace("J", "I")
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     
-    # input key value
     for char in key:
         if char not in matrix and char in alphabet:
             matrix.append(char)
-            
-    # input alphabet
     for char in alphabet:
         if char not in matrix and char != 'J':
             matrix.append(char)
     
     matrix = [matrix[i*5:(i+1)*5] for i in range(5)]
+
+    # 2. convert input if it's a list of chars
+    if isinstance(ciphertext, list):
+        ciphertext = ''.join(ciphertext)
+    ciphertext = ciphertext.upper().replace("J", "I").replace(" ", "")
     
-    for i in range(0, len(cipher) -1, 2):
-        ay, ax = find_position(matrix, cipher[i])
-        by, bx = find_position(matrix, cipher[i+1])
+    # 3. decrypt in pairs
+    decrypted = []
+    for i in range(0, len(ciphertext), 2):
+        a, b = ciphertext[i], ciphertext[i+1]
+        ay, ax = find_position(matrix, a)
+        by, bx = find_position(matrix, b)
         
-        if ay == by :
-            cipher[i] = matrix[ay][(ax + 4)%5]
-            cipher[i+1] = matrix[ay][(bx + 4)%5]
-        elif ax == bx :
-            cipher[i] = matrix[(ay + 4)%5][ax]
-            cipher[i+1] = matrix[(by + 4)%5][ax]
-        else :
-            cipher[i] = matrix[ay][bx]
-            cipher[i+1] = matrix[by][ax]
-    return cipher
+        if ay == by:
+            decrypted.append(matrix[ay][(ax - 1) % 5])
+            decrypted.append(matrix[by][(bx - 1) % 5])
+        elif ax == bx:
+            decrypted.append(matrix[(ay - 1) % 5][ax])
+            decrypted.append(matrix[(by - 1) % 5][ax])
+        else:
+            decrypted.append(matrix[ay][bx])
+            decrypted.append(matrix[by][ax])
+    
+    return ''.join(decrypted)
 
 # 가장 많은 문자 -> 첫번째로 가게
 def find_frequency(cipher):

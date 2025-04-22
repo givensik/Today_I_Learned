@@ -4,91 +4,95 @@ import bf
 import string
 import random
 import hill
-# shift cipher function 
-def shift_cipher():
+import assgin1
+
+# integrate encryption
+def encrypt():
+    if check1_var.get() : # Shift Cipher Checkbox is checked
+        shift_cipher_encrypt()
+    elif check2_var.get() : # substitution Cipher Checkbox is checked
+        substitution_cipher_encrypt()
+    elif check3_var.get() : # vigener Cipher Checkbox is checked
+        vigener_cipher_encrypt()
+    elif check5_var.get() : # vigener Cipher Checkbox is checked
+        playfair_encrypt()
+    elif check8_var.get() : # hillcipher
+        hillcipher_encrypt()
+
+def decrypt():
+    if check1_var.get() : # Shift Cipher Checkbox is checked
+        shift_cipher_decrypt()
+    elif check2_var.get() : # substitution Cipher Checkbox is checked
+        substitution_cipher_decrypt()
+    elif check3_var.get() : # vigener Cipher Checkbox is checked
+        vigenere_decrypt()
+    elif check5_var.get() : # vigener Cipher Checkbox is checked
+        playfair_decrypt()
+    elif check8_var.get() : # hillcipher is checked
+        hillcipher_decrypt()
+
+def bruteforce():
+    if check4_var.get() : # Shift Cipher Checkbox is checked
+        bf_shift()
+    elif check7_var.get() : # substitution Cipher Checkbox is checked
+        check7_var()
+    elif check6_var.get() : # vigener Cipher Checkbox is checked
+        frequency_analysis()
+    elif check9_var.get() :
+        hillattack()
+    else :
+        messagebox.showerror("Error","Choose Method")
+
+
+def shift_cipher_encrypt():
     pvalue = pinput.get() # get plaintext value
-    key = kvalue.get() # get key value
-    output = [] # output variable
-    
-    # 입력값 검증
-    if not pvalue and not key :
-        messagebox.showerror("Error","No value")
-        return 0
-    if not key.isdigit():
-        messagebox.showerror("Error","Invalid key")
-        return 0
-    # shifts each letter by the key value
-    # shift cipher
-    for i in pvalue:
-        if not i.isalpha(): # if not a alphabet like space 
-           output.append(i) # append without changes
-           continue
-        base = ord('A') if i.isupper() else ord('a') 
-        shifted = (ord(i) - base + int(key)) % 26 + base # shift each chracters based on key value
-        output.append(chr(shifted))
-    
-    # array -> string    
-    output = "".join(output) 
-    ovalue.set(output) 
+    key = kvalue.get()
+    output = assgin1.shift_cipher_encrypt(pvalue, key)
+    ovalue.set(output)
+    cvalue.set(output)
 
-# function to make shuffled alphabet 
-def generate_substitution_cipher():
-    # original alphabet
-    original_alphabet = list(string.ascii_lowercase) # a-z
-    shuffled_alphabet = original_alphabet.copy() # create copy of original alphabet
-    random.shuffle(shuffled_alphabet) # suffle
-
-    return shuffled_alphabet 
+def shift_cipher_decrypt():
+    pvalue = ovalue.get() # get plaintext value
+    key = kvalue.get()
+    output = assgin1.shift_cipher_encrypt(pvalue, key)
+    dvalue.set(output)
+    
 # for make random substitution key
 def shuffle() :
-    key = generate_substitution_cipher()
+    key = assgin1.generate_substitution_cipher()
     key = "".join(key)
     kvalue.set(key)
-
-# function to encrypt by substitution cipher
-def substitution_cipher():
-    # get plain text and shuffle key
+# for encrypt substitution cipher
+def substitution_cipher_encrypt():
     plaintext = pinput.get()
     key = kvalue.get()
+    cipher = assgin1.substitution_cipher(plaintext, key)
     
-    output = []
-    for i in plaintext:
-        if  not i.isalpha() : # if each character is not alphabet then append it without change
-            output.append(i)
-            continue
-        # if each character is alphabetic then substitute by shuffled alphabet
-        base = ord('A') if i.isupper() else ord('a') # b -> p
-        output.append(key[ord(i) - base])
-    output = "".join(output)
-    # make output
-    ovalue.set(output)
+    ovalue.set(cipher)
+    cvalue.set(cipher)
 
+# for decrypt substitution cipher
+def substitution_cipher_decrypt():
+    ciphertext = cvalue.get()
+    key = kvalue.get()
+    
+    decrypt = assgin1.substitution_cipher_decrypt(ciphertext, key)
+    dvalue.set(decrypt)
+    
 # function to vigenere_cipher
-def vigenere_encrypt():
-    # get plain, key value
-    key = kvalue.get()
+def vigener_cipher_encrypt():
     plaintext = pinput.get()
-    
-    encrypted_message = []
-    key_length = len(key)
-    
-    key_index = 0  # index of the key
-    for char in plaintext:
-        if char.isalpha():  # encrypt only alpha characters
-            # calculate index of plaintext and key
-            p_index = ord(char) - ord('a')
-            k_index = ord(key[key_index % key_length]) - ord('a')
-            # encrypt by adding each character
-            c_index = (p_index + k_index) % 26
-            encrypted_char = chr(c_index + ord('a'))
-            encrypted_message.append(encrypted_char)
-            key_index += 1  # 키 인덱스 증가
-        else:
-            # if char is not alphabet
-            encrypted_message.append(char)
-            key_index = 0
-    output = ''.join(encrypted_message)
+    key = kvalue.get()
+    output = assgin1.vigenere_encrypt(plaintext, key)
     ovalue.set(output)
+    cvalue.set(output)
+    
+def vigenere_decrypt():
+    key = kvalue.get().lower()  # 키는 소문자로 통일
+    ciphertext = ovalue.get()
+    output = assgin1.vigenere_decrypt(ciphertext, key)
+    dvalue.set(output)
+    
 
 # encrypt playfair encryption
 def playfair_encrypt():
@@ -98,15 +102,16 @@ def playfair_encrypt():
     
     encrypted = bf.playfair_tech(plaintext, key)
     ovalue.set("".join(encrypted))
+    cvalue.set("".join(encrypted))
     
 # decrypt playfair encryption
 def playfair_decrypt():
     # get plain, key value
     key = kvalue.get()
-    output = ovalue.get()
+    output = cvalue.get()
     
-    encrypted = bf.playfair_tech(output, key)
-    ovalue.set("".join(encrypted))
+    decrypted = bf.playfair_decrypt(output, key)
+    dvalue.set("".join(decrypted))
     
 # decrypt by frequency analysis
 def frequency_analysis():
@@ -116,9 +121,9 @@ def frequency_analysis():
 
 def hillcipher_encrypt():
     
-    if check1_var.get() : # Shift Cipher Checkbox is checked
+    if check_key1.get() : # Shift Cipher Checkbox is checked
         key = hill.generate_3x3_key()
-    elif check2_var.get() :
+    elif check_key2.get() :
         key = hill.generate_5x5_key()
     else :
         key = hill.generate_3x3_key()    
@@ -126,12 +131,13 @@ def hillcipher_encrypt():
     plaintext = pinput.get()
     output = hill.hill_cipher_encrypt(plaintext, key)
     ovalue.set(output)
+    cvalue.set(output)
 
 def hillcipher_decrypt():
     key = eval(kvalue.get()) # be aware it is not secure function
-    cipher = ovalue.get()
+    cipher = cvalue.get()
     output = hill.hill_cipher_decrypt(cipher, key)
-    ovalue.set(output)
+    dvalue.set(output)
 
 def hillattack():
     cipher = bfinput.get()
@@ -145,30 +151,6 @@ def on_check(var, checkbox_vars): # check only one checkbox
         if v != var: # only var is checked
             v.set(False)
 
-# integrate encryption
-def encrypt():
-    if check1_var.get() : # Shift Cipher Checkbox is checked
-        shift_cipher()
-    elif check2_var.get() : # substitution Cipher Checkbox is checked
-        substitution_cipher()
-    elif check3_var.get() : # vigener Cipher Checkbox is checked
-        vigenere_encrypt()
-    elif check5_var.get() : # vigener Cipher Checkbox is checked
-        playfair_encrypt()
-    elif check8_var.get() : # hillcipher
-        hillcipher_encrypt()
-
-def decrypt():
-    if check1_var.get() : # Shift Cipher Checkbox is checked
-        shift_cipher()
-    elif check2_var.get() : # substitution Cipher Checkbox is checked
-        substitution_cipher()
-    elif check3_var.get() : # vigener Cipher Checkbox is checked
-        vigenere_encrypt()
-    elif check5_var.get() : # vigener Cipher Checkbox is checked
-        playfair_decrypt()
-    elif check8_var.get() : # hillcipher is checked
-        hillcipher_decrypt()
 
 def bf_shift():
     cipher = bfinput.get()
@@ -177,17 +159,6 @@ def bf_shift():
     bfvalue.set("".join(output))
 
 
-def bruteforce():
-    if check4_var.get() : # Shift Cipher Checkbox is checked
-        bf_shift()
-    elif check7_var.get() : # substitution Cipher Checkbox is checked
-        check7_var()
-    elif check6_var.get() : # vigener Cipher Checkbox is checked
-        frequency_analysis()
-    elif check9_var.get() :
-        hillattack()
-    else :
-        messagebox.showerror("Error","Choose Method")
 
 
 
@@ -249,7 +220,7 @@ check4 = ttk.Checkbutton(
     command=lambda: on_check(check4_var, [check4_var, check6_var, check7_var, check9_var])
 )
 
-check4.grid(row=5, column=0, sticky=tk.W, padx=5, pady=5)
+check4.grid(row=15, column=0, sticky=tk.W, padx=5, pady=5)
 
 check5 = ttk.Checkbutton(
     root,
@@ -267,16 +238,16 @@ check6 = ttk.Checkbutton(
     command=lambda: on_check(check6_var, [check4_var, check6_var, check7_var, check9_var])
 )
 
-check6.grid(row=5, column=1, sticky=tk.W, padx=5, pady=5)
+check6.grid(row=15, column=1, sticky=tk.W, padx=5, pady=5)
 
 check7 = ttk.Checkbutton(
     root,
-    text="Playfair technique bruteforce",
+    text="Playfair technique BF",
     variable=check7_var,
     command=lambda: on_check(check7_var, [check4_var, check6_var, check7_var, check9_var])
 )
 
-check7.grid(row=5, column=2, sticky=tk.W, padx=5, pady=5)
+check7.grid(row=15, column=2, sticky=tk.W, padx=5, pady=5)
 
 check8 = ttk.Checkbutton(
     root,
@@ -294,7 +265,7 @@ check9 = ttk.Checkbutton(
     command=lambda: on_check(check9_var, [check4_var, check6_var, check7_var, check9_var])
 )
 
-check9.grid(row=5, column=3, sticky=tk.W, padx=5, pady=5)
+check9.grid(row=15, column=3, sticky=tk.W, padx=5, pady=5)
 
 hillcheck = ttk.Checkbutton(
     root,
@@ -320,6 +291,9 @@ pinput = tk.StringVar() # 입력 값 저장하는 변수
 sinput = tk.StringVar() # 입력 값 저장하는 변수
 ovalue = tk.StringVar() # 입력 값 저장
 ovalue.set("output value")
+cvalue = tk.StringVar() # 암호문 저장
+dvalue = tk.StringVar() # 복호문 저장
+
 # substituition cipher variables
 kvalue = tk.StringVar() # key 값
 
@@ -345,6 +319,19 @@ output_label.grid(row = 3, column= 0)
 output_text = ttk.Label(root, textvariable=ovalue)
 output_text.grid(row = 3, column= 1)
 
+# cipher text GUI
+ciphertext = ttk.Label(root, text="Cipher text")
+ciphertext.grid(row=7, column=0)    
+ciphertext_input = ttk.Entry(root, textvariable=cvalue) # plain text 입력 칸
+ciphertext_input.grid(row=7, column=1)
+
+# decrypt output value GUI
+output_label = ttk.Label(root, text="Output") 
+output_label.grid(row = 8, column= 0)
+output_text = ttk.Label(root, textvariable=dvalue)
+output_text.grid(row = 8, column= 1)
+
+
 # encrypt button GUI
 btn1 = ttk.Button(root, text="Encrypt", command = encrypt)
 btn1.grid(row=4, column=0, padx=10, pady=5, sticky="w")
@@ -355,24 +342,35 @@ shuffle_btn.grid(row=4, column=1, padx=10, pady=5, sticky="w")
 
 # decrypt button GUI
 btn2 = ttk.Button(root, text="Decrypt", command = decrypt)
-btn2.grid(row=4, column=2, padx=10, pady=5, sticky="w")
+btn2.grid(row=7, column=2, padx=10, pady=5, sticky="w")
 
 # bruteforce button GUI
 btn3 = ttk.Button(root, text="Bruteforce", command=bruteforce )
-btn3.grid(row=8, column=0, padx=10, pady=5, sticky="w")
+btn3.grid(row=20, column=2, padx=10, pady=5, sticky="w")
 
 # Bruteforce input GUI
 plaintext = ttk.Label(root, text="Bruteforce input")
-plaintext.grid(row=7, column=0)    
+plaintext.grid(row=20, column=0)    
 plaintext_input = ttk.Entry(root, textvariable=bfinput) # plain text 입력 칸
-plaintext_input.grid(row=7, column=1)
+plaintext_input.grid(row=20, column=1)
 
 # Bruteforce result GUI
 output_label = ttk.Label(root, text="Bruteforce Result") 
-output_label.grid(row = 9, column= 0)
+output_label.grid(row = 21, column= 0)
 output_text = ttk.Label(root, textvariable=bfvalue)
-output_text.grid(row = 9, column= 1)
+output_text.grid(row = 21, column= 1)
 
 
 if __name__ == "__main__":
     root.mainloop()  # 이 줄이 없으면 창이 바로 닫힘!
+    
+    
+    
+
+
+
+# playfair
+
+# cryptography my dear love 
+
+# best maths
