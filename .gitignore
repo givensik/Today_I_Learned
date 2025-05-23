@@ -12,3 +12,6 @@
 
 /PublicKeyCrypto/src/build
 PublicKeyCrypto/src/dist
+
+*.pem
+*.key

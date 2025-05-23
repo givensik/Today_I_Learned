@@ -1,0 +1,3 @@
+([('main',
+   '/Users/givensik/vscode/Today_I_Learned/PublicKeyCrypto/crypto/src/dist/main',
+   'EXECUTABLE')],)
