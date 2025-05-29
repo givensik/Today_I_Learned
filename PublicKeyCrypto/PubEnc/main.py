@@ -2,11 +2,15 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 
 import DEStandard
+import AESStandard
+
 
 # integrate encryption
 def encrypt():
     if check_method1.get():
         DES_Enc()
+    elif check_method2.get():
+        AES_Enc()
     
 
 # DES encrytion function
@@ -30,13 +34,37 @@ def DES_Enc():
     for data in round_data:
         round1_output.insert(tk.END, f"Round {data['round']:2}: L = {data['L']} | R = {data['R']}\n")
         round1_output.insert(tk.END, f"           S-box Output: {data['S-box']}\n")
-    
+
+# AES encrytion function
+def AES_Enc():
+    p = plaintext.get().lower()
+    k = key.get().lower()
+    # AESStandard.encrypt_detailed: (cipher_hex, [subkey0,...,subkey10], [{round, state_after_subbytes, state_after_shift, state_after_mix, state_after_key_add},...])
+    c, round_keys, round_data = AESStandard.encrypt_detailed(p, k)
+    ciphertext.set(c)
+
+    # AES 서브키(라운드 키) 출력
+    roundkey_text.delete("1.0", tk.END)
+    roundkey_text.insert(tk.END, "[AES Round Keys]\n")
+    for i, rk in enumerate(round_keys):
+        roundkey_text.insert(tk.END, f"K{i:02d}: {rk}\n")
+
+    # AES 라운드별 상태 출력
+    round1_output.delete("1.0", tk.END)
+    round1_output.insert(tk.END, "[AES Round-wise State]\n")
+    for data in round_data:
+        round1_output.insert(tk.END,
+            f"Round {data['round']:2d}: SubBytes={data['subbytes']} | ShiftRows={data['shiftrows']} | MixColumns={data.get('mixcolumns','-')} | AddKey={data['addkey']}\n"
+        )    
     
 
 
 def decrypt():
     if check_method1.get():
         DES_Dec()
+    elif check_method2.get():
+        AES_Dec()
+
 
 
 # DES decryption function
@@ -44,6 +72,13 @@ def DES_Dec():
     c = ciphertext.get()
     k = key.get()
     p = DEStandard.des_decrypt(c, k)
+    decrypt_value.set(p)
+
+# --- AES Decryption ---
+def AES_Dec():
+    c = ciphertext.get()
+    k = key.get().lower()
+    p = AESStandard.decrypt_gui(c, k)
     decrypt_value.set(p)
 
 # Create main window
@@ -62,6 +97,7 @@ decrypt_value = tk.StringVar()
 
 # checkbox variables
 check_method1 = tk.BooleanVar(value=False)  # default False 
+check_method2 = tk.BooleanVar(value=False)  # default False 
 
 
 
@@ -77,9 +113,17 @@ check = ttk.Checkbutton(
     root,
     text="DES",
     variable=check_method1,
-    command=lambda: on_check(check_method1, [check_method1])  # 상태 변경시 호출될 함수
+    command=lambda: on_check(check_method1, [check_method1, check_method2])  # 상태 변경시 호출될 함수
 )
 check.grid(row=0, column=0, sticky=tk.W, padx=5, pady=5)
+
+check = ttk.Checkbutton(
+    root,
+    text="AES",
+    variable=check_method2,
+    command=lambda: on_check(check_method2, [check_method1, check_method2])  # 상태 변경시 호출될 함수
+)
+check.grid(row=0, column=1, sticky=tk.W, padx=5, pady=5)
 
 
 
