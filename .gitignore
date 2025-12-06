@@ -16,3 +16,5 @@ PublicKeyCrypto/src/dist
 *.pem
 *.key
 exploit/whitehat/venv/
+
+.venv/
