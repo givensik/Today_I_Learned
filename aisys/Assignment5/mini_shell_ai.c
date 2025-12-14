@@ -184,6 +184,11 @@ int main(void) {
     ai_helper_pid = fork();
 
     if (ai_helper_pid == 0) {
+        // 자식은 별도의 프로세스 그룹으로 분리하여
+        // 터미널에서 발생하는 시그널(예: Ctrl+C 등)이 부모와 공유되지 않도록 한다.
+        if (setpgid(0, 0) == -1) {
+            perror("setpgid (child)");
+        }
         // [추가] 자식 프로세스는 터미널 시그널을 기본값으로 복원
         signal(SIGTTIN, SIG_DFL);
         signal(SIGTTOU, SIG_DFL);
@@ -198,6 +203,12 @@ int main(void) {
     } else if (ai_helper_pid < 0) {
         perror("fork");
         return 1;
+    }
+    // 부모 쪽에서도 자식의 pgid를 설정 시도 (race condition 방지)
+    if (setpgid(ai_helper_pid, ai_helper_pid) == -1) {
+        // 실패해도 진행: 자식이 이미 setpgid 했을 수 있음
+        // 디버그 출력은 선택적으로 남김
+        // perror("setpgid (parent)");
     }
     
     // 자식이 충분히 초기화될 시간 제공 (ollama 모델 로딩 시간)
